@@ -1,9 +1,13 @@
 import React from 'react';
+import { UseFormRegister } from 'react-hook-form';
 interface Prop{
     etiqueta:boolean,
     nombre:string,
+    register:UseFormRegister<any>
+    lista:string[]
 }
-function Opciones({etiqueta,nombre}:Prop) {
+
+function Opciones({etiqueta,nombre,register,lista}:Prop) {
     return (
 
         <div className="input-group mb-3">
@@ -11,14 +15,12 @@ function Opciones({etiqueta,nombre}:Prop) {
               etiqueta?<label className="input-group-text" form="inputGroupSelect01">Options</label>:null
             }
          
-         <select className="form-select" id="inputGroupSelect01" title={nombre}>
+         <select className="form-select" id="inputGroupSelect01" title={nombre} {...register(nombre,{required:'requerido'})}>
            <option selected>{nombre}</option>
-           <option value="0">Peon</option>
-           <option value="1">Albañil</option>
-           <option value="2">Fontanero</option>
-           <option value="3">Electricista</option>
-           <option value="4">Arquitecto</option>
-           <option value="5">Ingeniero Civil</option>
+           {lista.map(e=>(
+             
+             <option value={e} key={e}>{e}</option>
+            ))}
          </select>
        </div>
     );

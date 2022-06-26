@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import DatePicker  from 'react-datepicker';
 import Opciones from './Opciones';
+import { useForm } from 'react-hook-form';
 
 
 Modal.setAppElement('#root');
@@ -24,9 +25,17 @@ const customStyles = {
     titulo:string
     etiqueta:string
   }
+  type FormData = {
+    nombre    : string;
+    apellido   : string;
+    ocupacion: string;
+    salario: string;
+    disLabor: string;
+  
+  };
 function ModalI({modalIsOpen,closeModal,tipo,titulo,etiqueta}:Prop) {
   let subtitle:any;
-
+  const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
   
   function afterOpenModal() {
     // references are now sync'd and can be accessed.
@@ -64,8 +73,8 @@ function ModalI({modalIsOpen,closeModal,tipo,titulo,etiqueta}:Prop) {
                     <input type="date" name="fecha" id="final"/>
                  </div>
                  <div>
-                  <Opciones etiqueta={false} nombre={'Cuadrilla'} />
-                  <Opciones etiqueta={false} nombre={'Concepto'} />
+                  <Opciones lista={["1"]} etiqueta={false} nombre={'Cuadrilla'} register={register}/>
+                  <Opciones lista={["1"]} etiqueta={false} nombre={'Concepto'} register={register}/>
                  </div>
                   </>:null
                  }

@@ -1,11 +1,23 @@
 import React from 'react';
+import { useForm } from 'react-hook-form'
 import { Opciones } from '../components/all';
 import ModalI from '../components/all/Modal';
 import WorkLayout from '../components/layout/WorkLayout';
+type FormData = {
+  nombre    : string;
+  apellido   : string;
+  ocupacion: string;
+  salario: string;
+  disLabor: string;
 
+}
+const ocupacion=['Peon','Albañil','Fontanero','Electricista','Arquitecto','IngCivil']
 function PersonalPage() {
   const [modalIsOpen, setIsOpen] = React.useState(false);
-    
+  const { register, handleSubmit, formState: { errors } } = useForm<FormData>(); 
+  const agregar=(data:FormData)=>{
+    console.log(data)
+  }
       function closeModal() {
         setIsOpen(false);
       }
@@ -24,7 +36,7 @@ function PersonalPage() {
                   <button className='btn btn-success' onClick={()=>setIsOpen(true)}>Agrega</button>
                   <div className='lista h-50
                    overflow-auto'>
-                  <Opciones etiqueta={false} nombre={'Trabajador'} />
+                  <Opciones lista={["1"]}etiqueta={false} nombre={'Trabajador'} register={register}/>
                   </div>
                   <div className='total  text-center w-100'>
                     <p className=' text-bg-light'>Total $ por semana:</p>
@@ -33,23 +45,25 @@ function PersonalPage() {
                   </div>
                   
                   <div className='formu flex-grow-1'>
-                  <form className="  form p-2 ">
+                  <form className="  form p-2 " onSubmit={handleSubmit(agregar)}>
                     
                   <div className="input-group mb-3">
-                    <input type="text" className="form-control" placeholder="Nombre" aria-label="Nombre"/>
+                    <input type="text" className="form-control" placeholder="Nombre" aria-label="Nombre"{...register('nombre',{required:'requerido'})}/>{!!errors.nombre && errors.nombre.message}
                     <span className="input-group-text">-</span>
-                    <input type="text" className="form-control" placeholder="Apellido" aria-label="Apellido"/>
+                    <input type="text" className="form-control" placeholder="Apellido" aria-label="Apellido"{...register('apellido',{required:'requerido'})}/>{!!errors.apellido && errors.apellido.message}
                   </div>
 
-                  <Opciones etiqueta={true} nombre={'Ocupacion'}/>
+                  <Opciones lista={ocupacion} etiqueta={true} nombre={'ocupacion'} register={register}/>
 
                <div className="input-group mb-3">
                <span className="input-group-text">$</span>
-                    <input type="number" className="form-control" placeholder="Salario por dia" aria-label="Salario"/>
+                    <input type="number" className="form-control" placeholder="Salario por dia" aria-label="Salario" 
+                    {...register('salario',{required:'requerido'})} />
                     <span className="input-group-text">-</span>
-                    <input type="number" className="form-control" placeholder="dias de trabajo" aria-label="dias" max={6}/>
+                    <input type="number" className="form-control" placeholder="dias de trabajo" max={6} {...register('disLabor',{required:'requerido'})}/>
+                    {!!errors.disLabor || !!errors.salario && errors.salario.message}
                   </div>
-                  <button className='btn btn-success' onClick={()=>setIsOpen(true)}>Aceptar</button>
+                  <button className='btn btn-success' type='submit'>Agregar</button>
                     
                   </form>
                    

@@ -28,8 +28,8 @@ function InicioPage() {
 
                 {
                     !modalIsOpen?
-                    [1,2,3].map((e)=>(
-                        <Actividad/>
+                    [1,2,3].map((e,i)=>(
+                        <Actividad key={i}/>
                     )):null
                 }
                 </div>
