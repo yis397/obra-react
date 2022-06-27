@@ -1,5 +1,5 @@
 import React from 'react';
-import { Actividad, HeadInicio } from '../components/all';
+import { Actividad, FormsActividad, HeadInicio } from '../components/all';
 import WorkLayout from '../components/layout/WorkLayout';
 import ModalI from '../components/all/Modal';
 
@@ -37,7 +37,9 @@ function InicioPage() {
                 </div>
                 <div  className='zindex-sticky'>
 
-                <ModalI modalIsOpen={modalIsOpen} closeModal={closeModal} tipo={1} titulo={'Agrega una Actividad'} etiqueta={'Descrp'}/>
+                <ModalI modalIsOpen={modalIsOpen} closeModal={closeModal} titulo={'Agrega una Actividad'}>
+                  <FormsActividad etiqueta='Desc'/>
+                </ModalI>
                 </div>
                 </div>
 

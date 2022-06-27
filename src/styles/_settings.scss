@@ -4,6 +4,7 @@
 *{
     margin: 0;
     box-sizing: border-box;
+
 }
 @mixin center {
     display: flex;
@@ -69,13 +70,22 @@ html,body{
     
 }
 .inf{
-    //background-color: aquamarine;
-    .lista{
-    
-    }
+   .datos{
+
+       .lista{
+           height:300px;
+
+       }
+   }
 }
 .formu{
+
     .lista{
-        
+        height:300px;
     }
+}
+.card{
+   .card-title{
+    height:40px;
+   } 
 }

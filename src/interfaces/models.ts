@@ -4,10 +4,11 @@ export interface IActividad{
     actividad:string
     inicio:string
     final:string
-    cuadrilla:ITrabajador[]
+    cuadrilla:ICuadrilla
 
 }
 export interface ITrabajador{
+    trabajadores?: ITrabajador
     id:string
     nombre:string
     apellido:string
@@ -31,4 +32,11 @@ export interface IMaterial{
     marca:string
     unidad:string
     precio:number
+}
+export interface ICuadrilla{
+    cuadrilla?: ICuadrilla
+    id:string
+    nombre:string
+    trabajadores?:ITrabajador[]
+    costo?:number
 }

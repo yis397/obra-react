@@ -1,10 +1,12 @@
 import React from 'react';
 import WorkLayout from '../components/layout/WorkLayout';
-import {Item1, ModalI, Opciones} from '../components/all';
+import {FormsGeneral, Item1, ModalI, Opciones} from '../components/all';
 
 function MaterialPage() {
     const [modalIsOpen, setIsOpen] = React.useState(false);
-    
+    const addMaterial=(data:any)=>{
+       console.log(data)
+    }
       function closeModal() {
         setIsOpen(false);
       }
@@ -57,7 +59,9 @@ function MaterialPage() {
 
               </div>
              </div>
-             <ModalI tipo={2} modalIsOpen={modalIsOpen} closeModal={closeModal} titulo={'Agrega un concepto'} etiqueta={'Unidad'}/>
+             <ModalI modalIsOpen={modalIsOpen} closeModal={closeModal} titulo={'Agrega un concepto'}>
+              <FormsGeneral etiqueta='Un' addGeneral={addMaterial}/>
+             </ModalI>
         </WorkLayout>
     );
 }
