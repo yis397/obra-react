@@ -4,10 +4,11 @@ interface Prop{
     etiqueta:boolean,
     nombre:string,
     register:UseFormRegister<any>
-    lista:string[]
+    lista:any[]
+    
 }
 
-function Opciones({etiqueta,nombre,register,lista}:Prop) {
+export function Opciones({etiqueta,nombre,register,lista}:Prop) {
     return (
 
         <div className="input-group mb-3">
@@ -15,12 +16,18 @@ function Opciones({etiqueta,nombre,register,lista}:Prop) {
               etiqueta?<label className="input-group-text" form="inputGroupSelect01">Options</label>:null
             }
          
-         <select className="form-select" id="inputGroupSelect01" title={nombre} {...register(nombre,{required:'requerido'})}>
-           <option selected>{nombre}</option>
-           {lista.map(e=>(
+         <select   defaultValue='' className="form-select" id="inputGroupSelect01" title={nombre} {...register(nombre,{required:'requerido'})}>
+           <option  value="">{nombre}</option>
+           {
+            etiqueta?lista.map((e,i)=>(
              
-             <option value={e} key={e}>{e}</option>
-            ))}
+              <option value={e} key={i}>{e}</option>
+             )):
+             lista.map((e,i)=>(
+              <option  value={e.id} key={i}>{e.nombre}</option>
+             ))
+             
+           }
          </select>
        </div>
     );

@@ -4,7 +4,7 @@ import { CardPersonal, FormsGeneral, Opciones,CardCuadrilla } from '../component
 import ModalI from '../components/all/Modal';
 import WorkLayout from '../components/layout/WorkLayout';
 import { useAppSelector,useAppDispatch } from '../store/hooks';
-import { addTrabajador, deletTrabajador,addCuadrilla, updateCuadrilla } from '../store/slices';
+import { addTrabajador, deletTrabajador,addCuadrilla, updateCuadrilla, deletCuadrilla } from '../store/slices';
 import { ITrabajador, ICuadrilla } from '../interfaces/models';
 
 
@@ -28,8 +28,9 @@ function PersonalPage() {
   const dispatch = useAppDispatch()
   const addTrab=(data:FormData)=>{
     const id=new Date().valueOf().toString();
-    dispatch(addTrabajador({trabajadores:{...data,id:id }as ITrabajador }))
-    //reset()
+    const salario=parseFloat(data.salario)
+    dispatch(addTrabajador({...data,id,salario,salarioSem:salario * parseFloat(data.laborales) }as ITrabajador))
+    reset()
   }
   const deletTrCuad=(id:string)=>{
     const newList=personal.filter(e=>e.id!==id)
@@ -37,7 +38,7 @@ function PersonalPage() {
   }
   const addCuadri=(data:any)=>{
     const id=new Date().valueOf().toString();
-    dispatch(addCuadrilla({cuadrilla:{...data,id}as ICuadrilla}))
+    dispatch(addCuadrilla({...data,id}as ICuadrilla))
     reset()
     closeModal()
   }
@@ -52,12 +53,12 @@ function PersonalPage() {
   }
   const addpersonal=(t:ITrabajador)=>{
     const exist=personal.find(e=>e.id===t.id)
-    if(exist || !idSelect.current?.id)return
+    if(exist || !idSelect.current?.id)return;
     setPersonal([...personal,t])
   }
   const upCuadrilla=()=>{
-
-    dispatch(updateCuadrilla({cuadrilla:{...idSelect.current,trabajadores:personal}as ICuadrilla}))
+    const price =personal.map(item => item.salarioSem).reduce((prev, curr) => prev + curr, 0);
+    dispatch(updateCuadrilla({...idSelect.current,trabajadores:personal,costo:price}as ICuadrilla))
   }
       function closeModal() {
         setIsOpen(false);
@@ -71,8 +72,8 @@ function PersonalPage() {
                 <div className='lista h-75'>
                 {
                     cuadrilla.map(e=>(
-                      <div  key={e.id} onClick={()=>select(e.cuadrilla!)} className='btn w-100'>
-                        <CardCuadrilla delet={()=>console.log('hola')}  person={e.cuadrilla!} 
+                      <div  key={e.id} onClick={()=>select(e)} className='btn w-100'>
+                        <CardCuadrilla delet={()=>dispatch(deletCuadrilla(e.id))}  person={e} 
                       />
                       </div>
                         
@@ -97,7 +98,7 @@ function PersonalPage() {
                   </div>
                   <div className='total  text-center w-100 flex-column d-flex'>
                     <p className=' text-bg-light'>Total $ por semana:</p>
-                    <p className='btn text-bg-primary'>$2500</p>
+                    <p className='btn text-bg-primary'>${idSelect.current?.costo}</p>
                     <button className='btn btn-success' onClick={()=>upCuadrilla()}>Aceptar cambios</button>
                   </div>
                   </div>
@@ -132,8 +133,8 @@ function PersonalPage() {
                     {
                       trabajadores.length!==0?
                       trabajadores.map((t,i)=>(
-                        <CardPersonal person={t.trabajadores!} key={i} delet={()=>dispatch(deletTrabajador(t.trabajadores?.id))} save={true}
-                        add={()=>addpersonal(t.trabajadores!)}
+                        <CardPersonal person={t} key={i} delet={()=>dispatch(deletTrabajador(t.id))} save={true}
+                        add={()=>addpersonal(t)}
                         estado={false}/>
                       ))
                       :<h4>no tiene personal</h4>

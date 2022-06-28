@@ -1,7 +1,8 @@
 import React from 'react';
-import { ITrabajador, ICuadrilla } from '../../interfaces/models';
+import { ITrabajador, ICuadrilla, IMaterial, IConcepto } from '../../interfaces/models';
 interface ITem1{
-  salario:boolean
+  concepto:IConcepto
+  delet:()=>void
 }
 interface ICard1{
   person:ITrabajador,
@@ -11,28 +12,58 @@ interface ICard1{
   estado?:boolean,
 
 }
+interface ICard3{
+  material:any,
+  delet:()=>void
+  add?:()=>void,
+  setValor?:(valor:any,i:string)=>void,
+  save:boolean,
+
+}
 interface ICard2{
   person:ICuadrilla,
   delet:()=>void
 }
-export function Item1({salario}:ITem1) {
+export function CardConcept({concepto,delet}:ITem1) {
     return (
         <div className="card">
                       
         <div className="card-body">
           <div className="card-title d-flex flex-direction-column">
-          <h4 >Title</h4>
-          {!salario?<input type="number" placeholder='cantidad'/>:null}
-          
+          <p >{concepto.nombre}</p>
           <button className='btn btn-danger '>delet</button>
           </div>
-          {salario?<p className="card-text">salario:$250</p>:null}
+          <p className="card-text">{concepto.descripcion}</p>
           
         </div>
       </div>
     );
 }
-
+export function CardMaterial({material,delet,add,save,setValor}:ICard3) {
+  return (
+    <div className="card">
+                      
+    <div className="card-body">
+      
+       <div className="card-title d-flex justify-content-between w-100 h-20 ">
+       <p className='overflow-hidden'>{save?material.nombre:""}:</p>
+       <p >{material.marca??''}</p>
+       <button className='btn btn-danger flex-direction-column' onClick={delet}>delet</button>
+       {save
+       ?<button  className='btn btn-info flex-direction-column' onClick={add}>add</button>
+       :<input type='number' placeholder='uso' onChange={(e)=>setValor!(e,material.id)} 
+       value={material.cantidad}/>
+      }
+       
+       </div>
+       {
+        save?<p className="card-text">precio:${material.precio}/{material.unidad}</p>:<p>{material.material.nombre}</p>
+       }
+     </div>
+     
+   </div>
+  );
+}
 
 
 export function CardPersonal({person,delet,add,save,estado}:ICard1) {

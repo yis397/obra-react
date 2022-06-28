@@ -23,31 +23,36 @@ export const insumosSlice= createSlice({
             state.materiales=[...state.materiales,action.payload]
          },
         deletTrabajador:(state,action)=>{
-            state.trabajadores=state.trabajadores.filter(e=>e.trabajadores?.id!==action.payload)
+            state.trabajadores=state.trabajadores.filter(e=>e.id!==action.payload)
 
         },
         deletMaterial:(state,action)=>{
-            state.materiales=state.materiales.filter(e=>e!==action.payload)
+            state.materiales=state.materiales.filter(e=>e.id!==action.payload)
         },
         addConcepto:(state,action)=>{
             state.conceptos=[...state.conceptos,action.payload]
          },
+         updateConcepto:(state,action)=>{
+            const search = (e:IConcepto) => e.id === action.payload.id;
+            const i =state.conceptos.findIndex(search)
+            state.conceptos[i]=action.payload
+         },
          deletConcepto:(state,action)=>{
-            state.conceptos=state.conceptos.filter(e=>e.id!==action.payload)
+            state.conceptos=state.conceptos.filter(e=>e.id!==action.payload.id)
         },
         addCuadrilla:(state,action)=>{
             state.cuadrilla=[...state.cuadrilla,action.payload]
          },
          updateCuadrilla:(state,action)=>{
-            const search = (e:ICuadrilla) => e.cuadrilla?.id === action.payload.cuadrilla.id;
+            const search = (e:ICuadrilla) => e.id === action.payload.id;
             const i =state.cuadrilla.findIndex(search)
 
            
-            state.cuadrilla[i].cuadrilla=action.payload.cuadrilla
+            state.cuadrilla[i]=action.payload
          },
          deletCuadrilla:(state,action)=>{
-            state.cuadrilla=state.cuadrilla.filter(e=>e.cuadrilla?.id!==action.payload)
+            state.cuadrilla=state.cuadrilla.filter(e=>e.id!==action.payload)
         },
     }
 })
-export const {addTrabajador,addMaterial,deletTrabajador,deletMaterial,deletConcepto,addConcepto,addCuadrilla,deletCuadrilla,updateCuadrilla}=insumosSlice.actions 
+export const {updateConcepto,addTrabajador,addMaterial,deletTrabajador,deletMaterial,deletConcepto,addConcepto,addCuadrilla,deletCuadrilla,updateCuadrilla}=insumosSlice.actions 

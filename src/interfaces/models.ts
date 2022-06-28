@@ -1,30 +1,40 @@
 export interface IActividad{
     id:string
-    titulo:string
-    actividad:string
+    nombre:string
+    descripcion:string
     inicio:string
     final:string
-    cuadrilla:ICuadrilla
-
+    precio:number
+    cuadrilla:string
+    concepto:string
+}
+export interface IEtapa{
+    id:string
+    nombre:string 
+    actividadesID?: string[]
+    actividades?: IActividad[]
 }
 export interface ITrabajador{
-    trabajadores?: ITrabajador
     id:string
     nombre:string
     apellido:string
-    salario:string
+    salario:number
+    salarioSem:number
     ocupacion:string
     laborales:string
 }
 export interface IConcepto{
     id:string
     nombre:string
-    materiales:IMatUso[]
+    descripcion:string
+    materiales?:IMatUso[]
+    materialesID?:string[]
+    precio?:number
 }
 export interface IMatUso{
   id:string
   material:IMaterial
-  cantidad:number
+  cantidad?:number
 }
 export interface IMaterial{
     id:string
@@ -34,9 +44,9 @@ export interface IMaterial{
     precio:number
 }
 export interface ICuadrilla{
-    cuadrilla?: ICuadrilla
     id:string
     nombre:string
     trabajadores?:ITrabajador[]
+    trabajadoresID?:string[]
     costo?:number
 }

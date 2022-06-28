@@ -1,10 +1,13 @@
 import React from 'react';
-
+interface Prop{
+    
+}
 function HeadInicio() {
     return (
         <div className='etapas row-3'>
                 <button type="button" className="btn btn-info rounded-5 ">add</button> 
                     <div className='lista'>
+                    
                     <button type="button" className="btn btn-secondary">Secondary</button> 
 
                     <button type="button" className="btn btn-secondary">Secondary</button>
