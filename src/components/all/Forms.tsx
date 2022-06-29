@@ -28,7 +28,7 @@ export function FormsGeneral({etiqueta,addGeneral}:Prop ) {
     return (
         <form className=' form-control' onSubmit={handleSubmit(addGeneral)}>
                   <div className="mt-2 mb-3">
-                    <input type="text" className="form-control is-valid" id="validationServer01" max={10} required placeholder='nombre'{...register('nombre',{required:'requerido'})}/>{!!errors.nombre && errors.nombre.message}
+                    <input type="text" className="form-control is-valid" id="validationServer01" maxLength={10} required placeholder='nombre'{...register('nombre',{required:'requerido'})}/>{!!errors.nombre && errors.nombre.message}
       
                    <div className="input-group">
                    <span className="input-group-text">{etiqueta}</span>
