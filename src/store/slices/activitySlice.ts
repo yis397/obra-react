@@ -24,8 +24,9 @@ export const activitySlice= createSlice({
             state.etapas[i]=action.payload
         },
         deletActEtap:(state,action)=>{
-            const{id,i}=action.payload as {i:number,id:string}
-            state.etapas[i].actividades=state.etapas[i].actividades!.filter(e=>e.id!==id)
+            const search = (e:IEtapa) => e.id === action.payload.id;
+            const i =state.etapas.findIndex(search)
+            state.etapas[i]=action.payload
         }
     }
 })

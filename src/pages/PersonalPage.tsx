@@ -66,7 +66,7 @@ function PersonalPage() {
     return (
         <WorkLayout>
             <div className="row h-100" >
-              <div className="cuadr col-4 align-items-center d-flex flex-column w-100%  ">
+              <div className="cuadr col-md-4 col-sm-12 align-items-center d-flex flex-column w-100% ">
                 <h2 >Tus cuadrillas</h2>
                 <button className='btn btn-success' onClick={()=>setIsOpen(true)}>Agregar</button>
                 <div className='lista h-75'>
@@ -82,9 +82,9 @@ function PersonalPage() {
                 </div>
               </div>
                
-              <div className="inf d-flex  flex-direction-column col-8 w-100% p-3" >
+              <div className="inf col-md-4 col-sm-12 p-3" >
                 
-                  <div className='datos flex-grow-0 w-50'>
+                  <div className='datos flex-grow-0 w-100'>
                   <p className=' text-info text  text-center'>Tus Trabajadores</p>
                   <div className='lista 
                    overflow-auto'>
@@ -102,8 +102,10 @@ function PersonalPage() {
                     <button className='btn btn-success' onClick={()=>upCuadrilla()}>Aceptar cambios</button>
                   </div>
                   </div>
-                  
-                  <div className='formu flex-grow-1'>
+              </div>
+
+
+              <div className='formu col-md-4 col-sm-12'>
                     <p className=' align-self-center text-center text-info'>Agrega un personal</p>
                   <form className="  form p-2 " onSubmit={handleSubmit(addTrab)}>
                     
@@ -128,7 +130,7 @@ function PersonalPage() {
                   </form>
                    
 
-                   <div className='lista overflow-auto p-2'>
+                   <div className='lista p-2'>
 
                     {
                       trabajadores.length!==0?
@@ -142,8 +144,6 @@ function PersonalPage() {
 
                    </div>
                   </div>
-
-              </div>
              </div>
              <ModalI  modalIsOpen={modalIsOpen} closeModal={closeModal} titulo={'Agrega una cuadrilla'}>
               <FormsGeneral etiqueta={'Descrip'} addGeneral={addCuadri}/>

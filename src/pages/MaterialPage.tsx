@@ -77,7 +77,7 @@ function MaterialPage() {
         <WorkLayout>
             <div className="row h-100">
               <div className="cuadrMat col-4 align-items-center d-flex flex-column w-100%  ">
-                <h2 >Tus Coneptos</h2>
+                <p className=' text-info text '>Tus Coneptos</p>
                 <button className='btn btn-success' onClick={()=>setIsOpen(true)}>Agrega</button>
                 <div className='lista'>
                   {
@@ -93,7 +93,7 @@ function MaterialPage() {
               <div className="inf d-flex  flex-direction-column col-8 w-100% p-3">
                 
                   <div className='flex-grow-0 w-50'>
-                  <h2 className=' text-info text h3'>Materiales por concepto</h2>
+                  <p className=' text-info text '>Materiales por concepto</p>
                   <div className='lista h-50 overflow-auto'>
                   {
                     matUso.map(e=>(

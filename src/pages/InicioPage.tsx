@@ -26,38 +26,54 @@ function InicioPage() {
       const dias=(new Date(data.inicio).getTime()-new Date(data.final).getTime())/(1000*60*60*24)
       const precio=parseFloat(data.cantidad)*concept?.precio!+(cuadr?.costo!*(Math.trunc(dias/5)));
       const newActividad:IActividad={...data,precio,id,cuadrilla:data.cuadrilla,concepto:data.concepto}
-      const newEtap:IEtapa={...etapas[0],actividades:[...(!etapas[0].actividades?[]:etapas[0].actividades), newActividad]}
+      const newEtap:IEtapa={...etapas[index],actividades:[...etapas[index].actividades!, newActividad]}
       dispatch(addActividad(newEtap))
-      closeModal()
-      
+      closeModal() 
+    }
+    const deletActividad=(id:string)=>{
+      const newList=etapas[index].actividades?.filter(e=>e.id!==id)
+      dispatch(deletActEtap({...etapas[index],actividades:newList}as IEtapa))
+     
     }
       const addEtap=(data:any)=>{
          const nombre=Object.fromEntries(new FormData(data.target)).nombre
          if ((nombre as string).length==0)return;
          const id=new Date().valueOf().toString()
-         dispatch(addEtapa({nombre,id }as IEtapa))
+         dispatch(addEtapa({nombre,id,actividades:[] }as IEtapa))
          data.preventDefault()
       }
       function closeModal() {
         setIsOpen(false);
       }
+      const open=()=>{if(etapas.length===0)return;
+        setIsOpen(true)}
+      const deletEt=(id:string)=>{dispatch(deletEtapa(id))
+      setindex(0)}
     
     return (
          <WorkLayout>
 
                 <div className='zindex-sticky'>
 
-                <HeadInicio select={selectE} etapas={etapas} add={addEtap} delet={(id:string)=>dispatch(deletEtapa(id))}/>
+                <HeadInicio select={selectE} etapas={etapas} add={addEtap} delet={(id:string)=>deletEt(id)}/>
                 </div>
                 <div className='activid row-6'>
 
                 <div className=" list-group zindex-dropdown">
-                <button  className="btn btn-info " onClick={()=>setIsOpen(true)}>Agrega una Actividad</button>
+                <button  className="btn btn-info " onClick={()=>open()}>Agrega una Actividad</button>
                 <div className='lista' >
 
                 {
                     !modalIsOpen?
-                    <p style={{color:'ActiveBorder'}}>{etapas[index].actividades?.length}a</p>
+                    <>
+                    {
+                    etapas.length!==0?
+                    etapas[index].actividades!.map((e,i)=>(
+                      <Actividad key={i} actividad={e} delet={()=>deletActividad(e.id)}/>
+                    ))
+                    :null
+                    }
+                    </>
                     :null
                 }
                 </div>
