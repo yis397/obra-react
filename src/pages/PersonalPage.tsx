@@ -66,10 +66,10 @@ function PersonalPage() {
     return (
         <WorkLayout>
             <div className="row h-100" >
-              <div className="cuadr col-md-4 col-sm-12 align-items-center d-flex flex-column w-100% ">
+              <div className="cuadr col-md-4 col-sm-12 align-items-center d-flex flex-column ">
                 <h2 >Tus cuadrillas</h2>
                 <button className='btn btn-success' onClick={()=>setIsOpen(true)}>Agregar</button>
-                <div className='lista h-75'>
+                <div className='lista d-flex flex-sm-row flex-md-column w-100'>
                 {
                     cuadrilla.map(e=>(
                       <div  key={e.id} onClick={()=>select(e)} className='btn w-100'>
@@ -90,14 +90,16 @@ function PersonalPage() {
                    overflow-auto'>
                   {
                     personal.map(e=>(
-        
-                      <CardPersonal delet={()=>deletTrCuad(e.id)} save={false} person={e} key={e.id}
-                      />
+                      <div className='m-2'>
+                        <CardPersonal delet={()=>deletTrCuad(e.id)} save={false} person={e} key={e.id}
+                        />
+
+                      </div>
                     ))
                   }
                   </div>
                   <div className='total  text-center w-100 flex-column d-flex'>
-                    <p className=' text-bg-light'>Total $ por semana:</p>
+                    <p className=' text-bg-light h5'>Total $ por semana:</p>
                     <p className='btn text-bg-primary'>${idSelect.current?.costo}</p>
                     <button className='btn btn-success' onClick={()=>upCuadrilla()}>Aceptar cambios</button>
                   </div>
@@ -130,14 +132,17 @@ function PersonalPage() {
                   </form>
                    
 
-                   <div className='lista p-2'>
+                   <div className='lista p-2 '>
 
                     {
                       trabajadores.length!==0?
                       trabajadores.map((t,i)=>(
-                        <CardPersonal person={t} key={i} delet={()=>dispatch(deletTrabajador(t.id))} save={true}
-                        add={()=>addpersonal(t)}
-                        estado={false}/>
+                        <div>
+
+                          <CardPersonal person={t} key={i} delet={()=>dispatch(deletTrabajador(t.id))} save={true}
+                          add={()=>addpersonal(t)}
+                          estado={false}/>
+                        </div>
                       ))
                       :<h4>no tiene personal</h4>
                     }

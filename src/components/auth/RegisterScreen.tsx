@@ -1,8 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAppDispatch } from '../../store/hooks';
+import { registerEmail } from '../../store/slices';
 import AuthLayout from '../layout/AuthLayout';
 
  function RegisterScreen() {
+  const dispatch = useAppDispatch()
+  const newRegister=(e:any)=>{
+    dispatch(registerEmail())
+    e.preventDefault()
+  }
     return (
         <AuthLayout>
             
@@ -14,7 +21,7 @@ import AuthLayout from '../layout/AuthLayout';
                  <div className="col-8 p-4 " style={{background:"#097caf",height:'60vh',display:'flex',justifyContent:'center',flexDirection:'column'}}>
                   
                   <h2 className='mt-1 '>Registrate</h2>
-                 <form  style={{height:'100%',display:'flex',justifyContent:'space-between',flexDirection:'column'}}>
+                 <form onSubmit={newRegister} style={{height:'100%',display:'flex',justifyContent:'space-between',flexDirection:'column'}}>
 
                  <div className="">
                     <input type="text" className="form-control is-valid" id="validationServer01" required placeholder='nombre'/>

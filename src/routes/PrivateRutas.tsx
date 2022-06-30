@@ -1,26 +1,30 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, } from 'react-router-dom';
 import {InicioPage,MaterialPage,PersonalPage} from '../pages';
 import NavBar from '../components/shared/NavBar';
 
-function PrivateRutas() {
+function PrivateRutas({isAuth}:{isAuth:boolean}) {
+  if (!isAuth) {
+    return <Navigate to={'auth'}></Navigate>
+  }
     return (
-       <div className='row w-100'>
-         <div className='col-2'>
+       <div className='general row w-100 '>
+         <div className='col-md-2 col-sm-12'>
         <NavBar/>
 
          </div>
 
-         <div className='col-10'>
+         <div className='bodyy container col-md-10 col-sm-12'>
         <Routes >
            <Route path="inicio" element={<InicioPage/>}/>
            <Route path="personal" element={<PersonalPage/>}/>
            <Route path="material" element={<MaterialPage/>}/>
+           
        </Routes>
 
          </div>
           </div>
-
+        
     );
 }
 

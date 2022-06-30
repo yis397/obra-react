@@ -11,6 +11,16 @@
     justify-content: center;
     align-items: center;
 }
+@mixin phone {
+    @media screen  and (max-width: 766px) {
+        @content;
+    }
+}
+@mixin tablet {
+    @media screen  and (min-width: 768px) {
+        @content;
+    }
+}
 html,body{
     background:#130d1d ;
 }
@@ -23,13 +33,25 @@ html,body{
 .containter_I{
    margin: 0;
    padding: 0;
-
+   height: 100%;
+   @include phone(){
+    height: 100%;
+    
+}
     .body_I{
         margin: 0;
-   padding: 0;
+        padding: 0;
         background-color: $fondo2;
-        width: 95%;
-        height: 80%;
+        @include phone(){
+            width: 100%;
+            height: 100%;
+
+        }
+        @include tablet(){
+            width: 95%;
+            height: 80%; 
+        }
+        
         overflow: hidden;
         .etapas{
          background-color: aliceblue;
@@ -38,7 +60,11 @@ html,body{
          border-bottom-left-radius: 30vh;
          border-bottom-right-radius: 30vh;
          .lista{
+            @include phone(){
+                padding-left: 60px;
+            }
             width: 100%;
+            overflow-x: scroll;
             @include center();
             justify-content: space-around;
          }
@@ -59,22 +85,68 @@ html,body{
 
 .NavBar{
     @include center();
-    flex-direction: column;
     justify-content: space-around;
-    
+    background:#097caf;
+    @include tablet(){
+        flex-direction: column;
+        height: 100vh;
+        width: 100%;
+    }
+    @include phone(){
+        flex-direction: row;
+        width: 100vw;
+       
+    }
 }
+.general{
+    
+  
+}
+.bodyy{
+    padding: 0;
+    margin: 0;
 
+    @include phone(){
+        height: 120vh;
+    }
+    @include center();
+}
 //personal
 .cuadr{
     background-color: antiquewhite;
+    .lista{
+        width: 100%;
+        @include phone(){
+          width: 100vw;
+          overflow-x: scroll;
+        }
+        @include tablet(){
+            height: 70%;
+            overflow: auto;
+        }
+    }
     
 }
 .inf{
-
+@include center();
     .datos{
 
        .lista{
-           height:300px;
+        display: flex;
+        
+        @include tablet(){
+            flex-direction: column;
+            height: 300px;
+            width: 100%;
+            overflow: auto;
+        }
+        @include phone(){
+            flex-direction: row;
+            overflow-x: scroll;
+            width: 100vw;
+            height: 15vh;
+           
+        }
 
        }
    }
@@ -82,7 +154,20 @@ html,body{
 .formu{
 
     .lista{
-        height:300px;
+        display: flex;
+        @include tablet(){
+            flex-direction: column;
+            height: 350px;
+            width: 100%;
+            overflow: auto;
+        }
+        @include phone(){
+            flex-direction: row;
+            overflow-x: scroll;
+            width: 100vw;
+            height: 20vh;
+           
+        }
         
     }
 }
@@ -90,10 +175,4 @@ html,body{
    .card-title{
     height:40px;
    } 
-}
-.cuadrMat{
-    .lista{
-        height: 300px;
-
-    }
 }

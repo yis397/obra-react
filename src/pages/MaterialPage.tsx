@@ -76,10 +76,10 @@ function MaterialPage() {
     return (
         <WorkLayout>
             <div className="row h-100">
-              <div className="cuadrMat col-4 align-items-center d-flex flex-column w-100%  ">
-                <p className=' text-info text '>Tus Coneptos</p>
+              <div className="cuadr col-md-4 col-sm-12 align-items-center d-flex flex-column justify-content-around">
+                <p className=' text h2'>Tus Coneptos</p>
                 <button className='btn btn-success' onClick={()=>setIsOpen(true)}>Agrega</button>
-                <div className='lista'>
+                <div className='lista d-flex flex-sm-row flex-md-column'>
                   {
                     conceptos.map(e=>(
                       <div key={e.id} onClick={()=>selectConcept(e)} className='btn'>
@@ -90,16 +90,18 @@ function MaterialPage() {
                 </div>
               </div>
                
-              <div className="inf d-flex  flex-direction-column col-8 w-100% p-3">
+              <div className="inf d-flex flex-direction-column col-md-4 col-sm-12  p-3">
                 
-                  <div className='flex-grow-0 w-50'>
-                  <p className=' text-info text '>Materiales por concepto</p>
-                  <div className='lista h-50 overflow-auto'>
+                  <div className='datos flex-grow-0 w-100'>
+                  <p className=' text-info text h2'>Materiales por concepto</p>
+                  <div className='lista overflow-auto'>
                   {
                     matUso.map(e=>(
-                      
+                      <div className='m-2'>
+
                         <CardMaterial key={e.id} material={e} save={false} delet={()=>deletMatUso(e.id)}
                         setValor={setValorMat}/>
+                      </div>
 
                       
                     ))
@@ -110,8 +112,10 @@ function MaterialPage() {
                     <button className='btn btn-success' onClick={cambiosConcept}>Guardar cambios</button>
                   </div>
                   </div>
-                  
-                  <div className='formu flex-grow-1'>
+              </div>
+
+              <div className='formu col-md-4 col-sm-12'>
+                 <h2 className='text-info text'>Agrega Materiales</h2>
                   <form className="  form p-2 " onSubmit={handleSubmit(addMat)}>
                     
                   <div className="input-group mb-3">
@@ -137,17 +141,17 @@ function MaterialPage() {
                   </form>
                    
 
-                   <div className='lista overflow-auto h-50 p-2'>
+                   <div className='lista overflow-auto p-2'>
                    {
                     materiales.map(e=>(
-                      <CardMaterial key={e.id} save={true} delet={()=>dispatch(deletMaterial(e.id))}
-                      add={()=>addMatUso(e)} material={e}/>
+                      <div className='m-2'>
+                        <CardMaterial key={e.id} save={true} delet={()=>dispatch(deletMaterial(e.id))}
+                        add={()=>addMatUso(e)} material={e}/>
+                      </div>
                     ))
                    }
                    </div>
                   </div>
-
-              </div>
              </div>
              <ModalI modalIsOpen={modalIsOpen} closeModal={closeModal} titulo={'Agrega un concepto'}>
               <FormsGeneral etiqueta='Descr' addGeneral={addConcept}/>

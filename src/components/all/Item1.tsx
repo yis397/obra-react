@@ -30,10 +30,10 @@ export function CardConcept({concepto,delet}:ITem1) {
                       
         <div className="card-body">
           <div className="card-title d-flex flex-direction-column">
-          <p >{concepto.nombre}</p>
+          <p className='h4'>{concepto.nombre}</p>
           <button className='btn btn-danger '>delet</button>
           </div>
-          <p className="card-text">{concepto.descripcion}</p>
+          <p className="card-text h5">{concepto.descripcion}</p>
           
         </div>
       </div>
@@ -45,20 +45,22 @@ export function CardMaterial({material,delet,add,save,setValor}:ICard3) {
                       
     <div className="card-body">
       
-       <div className="card-title d-flex justify-content-between w-100 h-20 ">
-       <p className='overflow-hidden'>{save?material.nombre:""}:</p>
-       <p >{material.marca??''}</p>
-       <button className='btn btn-danger flex-direction-column' onClick={delet}>delet</button>
-       {save
+       <div className="card-title d-flex justify-content-between w-100 h-50 flex-column ">
+       <p className='overflow-hidden h3'>{save?material.nombre:""}</p>
+       <p className='h4'>{material.marca??''}</p>
+       </div>
+
+       {
+        save?<p className="card-text h5">precio:${material.precio}/{material.unidad}</p>:<p className='h4'>{material.material.nombre}</p>
+       }
+          {save
        ?<button  className='btn btn-info flex-direction-column' onClick={add}>add</button>
        :<input type='number' placeholder='uso' onChange={(e)=>setValor!(e,material.id)} 
        value={material.cantidad}/>
       }
+         <button className='btn btn-danger flex-direction-column' onClick={delet}         >delet</button>
        
-       </div>
-       {
-        save?<p className="card-text">precio:${material.precio}/{material.unidad}</p>:<p>{material.material.nombre}</p>
-       }
+       
      </div>
      
    </div>
@@ -73,8 +75,8 @@ export function CardPersonal({person,delet,add,save,estado}:ICard1) {
     <div className="card-body">
       
        <div className="card-title d-flex justify-content-between w-100 h-20 ">
-       <p className='overflow-hidden'>{person.nombre}:</p>
-       <p >{person.ocupacion}</p>
+       <p className='overflow-hidden h3'>{person.nombre}:</p>
+       <p className='h4'>{person.ocupacion}</p>
        <button className='btn btn-danger flex-direction-column' onClick={delet}>delet</button>
        {save
        ?<button disabled={estado} className='btn btn-info flex-direction-column' onClick={add}>add</button>
@@ -82,7 +84,7 @@ export function CardPersonal({person,delet,add,save,estado}:ICard1) {
       }
        
        </div>
-       <p className="card-text">salario:${person.salario}/dia</p>
+       <p className="card-text h4">salario:${person.salario}/dia</p>
      </div>
      
    </div>
@@ -90,17 +92,16 @@ export function CardPersonal({person,delet,add,save,estado}:ICard1) {
 }
 export function CardCuadrilla({person,delet}:ICard2) {
   return (
-    <div className="card w-100">
+    <div className="card w-100 ">
                       
     <div className="card-body">
       
        <div className="card-title d-flex justify-content-between overflow-hidden">
-       <p className='p flex-grow-3'>{person.nombre}:</p>
+       <p className=' flex-grow-3 h4' >{person.nombre}:</p>
        
        <button className='btn btn-danger flex-direction-column' onClick={delet}>delet</button>
-        
        </div>
-       <p className="card-text">salario:${person.costo??0}/dia</p>
+       <p className="card-text h5">salario:${person.costo??0}/dia</p>
      </div>
      
    </div>

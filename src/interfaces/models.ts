@@ -50,3 +50,9 @@ export interface ICuadrilla{
     trabajadoresID?:string[]
     costo?:number
 }
+export interface IAuth{
+    id:string
+    nombre:string
+    correo:string
+    isUser:boolean
+}

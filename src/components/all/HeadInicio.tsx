@@ -8,15 +8,17 @@ interface Prop{
 }
 function HeadInicio({add,etapas,delet,select}:Prop) {
     return (
-        <div className='etapas row-3'>
-                <button type="button" className="btn btn-info rounded-5 ">add</button> 
+        <div className='etapas row-3 mt-5'>
+                    <h3 className='text-info'>Tus Etapas</h3>
                     <div className='lista'>
                     
                     {etapas.length!==0?
                     <>
                     {etapas.map((e,i)=>(
-                        <div key={e.id}>
-                            <button  type="button" onClick={()=>select(i,e)} className="btn btn-secondary" >{e.nombre}</button>
+                        <div key={e.id} className='flex-column d-flex ms-3 container'>
+                            <div  onClick={()=>select(i,e)} className="btn" >
+                                <p className='h3'>{e.nombre}</p>
+                            </div>
                             <button type="button" className="btn btn-danger " onClick={()=>delet(e.id)}>delet</button>
                         </div> 
                     ))}
