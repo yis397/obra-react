@@ -1,13 +1,23 @@
 import React from 'react';
+import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import { useAppDispatch } from '../../store/hooks';
-import { AuthGoogle } from '../../store/slices';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { AuthGoogle, loginEmail } from '../../store/slices';
 import AuthLayout from '../layout/AuthLayout';
 
+interface FormData{
+  email:string
+  password:string
+}
 function LoginScreen() {
+  const { register, handleSubmit,reset, formState: { errors } } = useForm<FormData>(); 
   const dispatch = useAppDispatch()
+  const{persona}=useAppSelector(state=>state.auth)
   const authGoo=()=>{
     dispatch(AuthGoogle())
+  }
+  const login=(data:FormData)=>{
+    dispatch(loginEmail(data))
   }
     return (
         <AuthLayout>
@@ -20,14 +30,17 @@ function LoginScreen() {
                </Link>
              </div>
 
-              <div className="col-8 p-4 " style={{background:"#097caf",height:'60vh',display:'flex',justifyContent:'center',flexDirection:'column'}}>
-               
-               <h2>Inicia Secion</h2>
-              <form className='d-flex justify-content-between flex-column'>
+              <div className="col-8 p-4 " style={{background:"#097caf",height:'100%',display:'flex',justifyContent:'center',flexDirection:'column'}}>
+               {
+                persona.msg==='Correcto'?<p className='text-bg-success'>{persona.msg}</p>:<p className='text-bg-danger'>{persona.msg}</p>
+               }
+               <h2 className='h5'>Inicia Secion</h2>
+              <form className='d-flex justify-content-between flex-column' onSubmit={handleSubmit(login)}>
 
                 <div className="mb-3">
                 <label form="validationServer01" className="form-label">Email</label>
-                 <input type="text" className="form-control is-valid" id="validationServer01" required placeholder='Email'/>
+                 <input type="email" className="form-control is-valid" id="validationServer01" required placeholder='Email'
+                 {...register('email',{required:'requerido'})}/>{!!errors.email && errors.email.message}
                  <div className="valid-feedback">
                    Looks good!
                  </div>
@@ -35,7 +48,8 @@ function LoginScreen() {
 
                 <div className="mb-3">
                 <label form="validationServer02" className="form-label">Password</label>
-                 <input type="password" className="form-control is-valid" id="validationServer02" required placeholder='password'/>
+                 <input type="password" className="form-control is-valid" id="validationServer02" required placeholder='password'
+                 {...register('password',{required:'requerido',minLength:6})}/>{!!errors.password && errors.password.message}
                  <div className="valid-feedback">
                    Looks good!
                  </div>

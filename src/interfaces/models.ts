@@ -34,6 +34,7 @@ export interface IConcepto{
 export interface IMatUso{
   id:string
   material:IMaterial
+  materialid?:string
   cantidad?:number
 }
 export interface IMaterial{
@@ -53,6 +54,7 @@ export interface ICuadrilla{
 export interface IAuth{
     id:string
     nombre:string
-    correo:string
+    email:string
+    msg:string
     isUser:boolean
 }

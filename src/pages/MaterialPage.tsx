@@ -28,7 +28,7 @@ function MaterialPage() {
       const exist=matUso.find(e=>e.id===material.id)
       if(exist)return
       const id=new Date().valueOf().toString();
-      const uso:IMatUso={id,material}
+      const uso:IMatUso={id,material,materialid:material.id}
       setMatUso([...matUso,uso])
     }
     const deletMatUso=(id:string)=>{
@@ -67,7 +67,11 @@ function MaterialPage() {
       for (let i = 0; i < matUso.length; i++) {
         precio=+matUso[i].cantidad!*matUso[i].material.precio 
       }
-      dispatch(updateConcepto({...refConcept.current,materiales:matUso,precio}as IConcepto))
+      const idsMat=matUso.map(e=>{
+        return e.id
+      })
+
+      dispatch(updateConcepto({...refConcept.current,materiales:matUso,precio,materialesID:idsMat}as IConcepto))
     }
 
       function closeModal() {

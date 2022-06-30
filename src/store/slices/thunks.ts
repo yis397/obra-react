@@ -1,5 +1,6 @@
-import {  signInWithPopup, GoogleAuthProvider,createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { signOut,onAuthStateChanged,signInWithPopup, GoogleAuthProvider,createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { googleAuth,auth} from "../../firebase/fireConfig";
+import { logout, setMensaje, setUser } from "./authSlice";
 
 export const AuthGoogle=()=>{
     return async(dispatch:any,getState:any)=>{
@@ -14,24 +15,69 @@ export const AuthGoogle=()=>{
              console.log(user);
              // ...
            }).catch((error) => {
-             // Handle Errors here.
-             const errorCode = error.code;
-             const errorMessage = error.message;
-             // The email of the user's account used.
-             const email = error.customData.email;
-             // The AuthCredential type that was used.
-             const credential = GoogleAuthProvider.credentialFromError(error);
+             // Handle Errors here.       
     // ...
   });
     }
 }
 
-export const registerEmail=()=>{
+export const registerEmail=({email,password,nombre}:{email:string,password:string,nombre:string})=>{
     return async(dispatch:any,getState:any)=>{
-        createUserWithEmailAndPassword(auth, 'yourwill_bloodjahm@hotmail.com', '123456')
+        createUserWithEmailAndPassword(auth, email, password)
       .then((res) => {
-          console.log(res.user)
+        updateProfile(auth.currentUser!, {
+          displayName:nombre
         })
-      .catch(err => console.log(err.message))
+          
+          const user=res.user
+          dispatch(setUser({id:user.uid,nombre,email}))
+         
+        })
+      .catch((err) => dispatch(setMensaje('E-en servidor')))
     }
+    
+}
+export const loginEmail=({email,password}:{email:string,password:string})=>{
+  return async(dispatch:any,getState:any)=>{
+
+   signInWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    // Signed in
+    const user = userCredential.user;
+    // ...
+    dispatch(setMensaje('Correcto'))
+    dispatch(setUser({id:user.uid,nombre:user.displayName,email}))
+  })
+  .catch((error) => {
+    dispatch(setMensaje('Email/password invalidos'))
+    
+  });
+  }
+}
+export const verificacionAuth=()=>{
+  return async(dispatch:any,getState:any)=>{
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+  
+        dispatch(setUser({id:user.uid,nombre:user.displayName,email:user.email}))
+        // ...
+      } else {
+        // User is signed out
+        // ...
+      }
+    });
+  }
+}
+const cerrarSecion=()=>{
+  return async(dispatch:any,getState:any)=>{
+    
+    signOut(auth).then(() => {
+      dispatch(logout)
+    }).catch((error) => {
+      dispatch(setMensaje('error en signOut'))
+      // An error happened.
+    });
+  }
 }
