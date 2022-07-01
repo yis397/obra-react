@@ -3,22 +3,28 @@ import { Actividad, FormsActividad, HeadInicio } from '../components/all';
 import WorkLayout from '../components/layout/WorkLayout';
 import ModalI from '../components/all/Modal';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { deletEtapa,addEtapa, addActividad, deletActEtap } from '../store/slices';
-import { IActividad, IEtapa } from '../interfaces/models';
+import { deletEtapa,addEtapa, addActividad, deletActEtap, upFActividad,activarEt } from '../store/slices';
+import { IActividad, IAuth, IEtapa } from '../interfaces/models';
 
-function InicioPage() {
+function InicioPage({persona}:{persona:IAuth}) {
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [index, setindex] = React.useState(0);
     const dispatch = useAppDispatch()
     const {conceptos,cuadrilla}=useAppSelector((state)=>state.insumos)
-    const {etapas}=useAppSelector((state)=>state.actividades)
-    
+    const {etapas,isActivo}=useAppSelector((state)=>state.actividades)
+    React.useEffect(() => {
+      if (isActivo) {
+        
+        dispatch(upFActividad(persona.id,etapas))
+      }
+    }, [etapas]);
     const selectE=(i:number)=>{
        setindex(i)
       
     }
 
     const addActivi=(data:any)=>{
+
       if (index===undefined)return
       const id=new Date().valueOf().toString();
       const concept=conceptos.find(e=>e.id===data.concepto)
@@ -36,6 +42,7 @@ function InicioPage() {
      
     }
       const addEtap=(data:any)=>{
+        dispatch(activarEt())
          const nombre=Object.fromEntries(new FormData(data.target)).nombre
          if ((nombre as string).length==0)return;
          const id=new Date().valueOf().toString()

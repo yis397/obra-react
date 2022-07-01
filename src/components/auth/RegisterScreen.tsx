@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { registerEmail, setMensaje } from '../../store/slices';
 import AuthLayout from '../layout/AuthLayout';
@@ -12,13 +12,15 @@ interface FormData{
 }
  function RegisterScreen() {
   const { register, handleSubmit,reset, formState: { errors } } = useForm<FormData>();
+  const navigate=useNavigate()
   const {persona}=useAppSelector(state=>state.auth)
   const dispatch = useAppDispatch()
   React.useEffect(() => {
-    if(persona.id.length!=0){
-      console.log(persona)
+    if(persona.id.length!==0){
+      setTimeout(() => {
+        navigate('/work/inicio')
+      }, 1000);
     }
-  
   }, [persona])
   
   const newRegister=({email,nombre,password,password2}:FormData)=>{
@@ -26,6 +28,7 @@ interface FormData{
       dispatch(setMensaje("E-password invalidos"))
       return;}
     dispatch(registerEmail({email,nombre,password}))
+    reset()
   }
     return (
         <AuthLayout>

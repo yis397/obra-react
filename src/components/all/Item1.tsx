@@ -51,7 +51,7 @@ export function CardMaterial({material,delet,add,save,setValor}:ICard3) {
        </div>
 
        {
-        save?<p className="card-text h5">precio:${material.precio}/{material.unidad}</p>:<p className='h4'>{material.material.nombre}</p>
+        save?<p className="card-text h5">precio:${material.precio}/{material.unidad}</p>:<p className='h4'>{material.nombre}</p>
        }
           {save
        ?<button  className='btn btn-info flex-direction-column' onClick={add}>add</button>

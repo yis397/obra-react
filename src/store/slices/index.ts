@@ -1,5 +1,7 @@
+export * from './thunksWork';
+
 export * from './authSlice';
-export * from "./thunks";
+export * from "./thunksAuth";
 
 export * from "./insumoSlice";
 

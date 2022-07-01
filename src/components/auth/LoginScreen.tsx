@@ -4,20 +4,29 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { AuthGoogle, loginEmail } from '../../store/slices';
 import AuthLayout from '../layout/AuthLayout';
-
+import { useNavigate } from "react-router-dom";
 interface FormData{
   email:string
   password:string
 }
 function LoginScreen() {
   const { register, handleSubmit,reset, formState: { errors } } = useForm<FormData>(); 
+  const navigate=useNavigate()
   const dispatch = useAppDispatch()
   const{persona}=useAppSelector(state=>state.auth)
+  React.useEffect(() => {
+    if(persona.id.length!==0){
+      setTimeout(() => {
+        navigate('/works/inicio')
+      }, 1000);
+    }
+  }, [persona]);
   const authGoo=()=>{
     dispatch(AuthGoogle())
   }
   const login=(data:FormData)=>{
     dispatch(loginEmail(data))
+    reset()
   }
     return (
         <AuthLayout>

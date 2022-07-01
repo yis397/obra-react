@@ -55,12 +55,11 @@ export const loginEmail=({email,password}:{email:string,password:string})=>{
   }
 }
 export const verificacionAuth=()=>{
-  return async(dispatch:any,getState:any)=>{
+  return (dispatch:any,getState:any)=>{
     onAuthStateChanged(auth, (user) => {
       if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
-  
         dispatch(setUser({id:user.uid,nombre:user.displayName,email:user.email}))
         // ...
       } else {
@@ -70,10 +69,12 @@ export const verificacionAuth=()=>{
     });
   }
 }
-const cerrarSecion=()=>{
+
+export const cerrarSecion=()=>{
   return async(dispatch:any,getState:any)=>{
     
     signOut(auth).then(() => {
+      localStorage.clear()
       dispatch(logout)
     }).catch((error) => {
       dispatch(setMensaje('error en signOut'))

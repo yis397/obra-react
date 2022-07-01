@@ -4,8 +4,9 @@ import { CardPersonal, FormsGeneral, Opciones,CardCuadrilla } from '../component
 import ModalI from '../components/all/Modal';
 import WorkLayout from '../components/layout/WorkLayout';
 import { useAppSelector,useAppDispatch } from '../store/hooks';
-import { addTrabajador, deletTrabajador,addCuadrilla, updateCuadrilla, deletCuadrilla } from '../store/slices';
-import { ITrabajador, ICuadrilla } from '../interfaces/models';
+import { addTrabajador, deletTrabajador,addCuadrilla, updateCuadrilla, deletCuadrilla, activarDis } from '../store/slices';
+import { ITrabajador, ICuadrilla, IAuth } from '../interfaces/models';
+import { upFTrabajado, upFCuadrilla } from '../store/slices/thunksWork';
 
 
 
@@ -18,15 +19,27 @@ type FormData = {
 
 }
 const ocupacion=['Peon','Albañil','Fontanero','Electricista','Arquitecto','IngCivil']
-function PersonalPage() {
+function PersonalPage({persona}:{persona:IAuth}) {
 
   const [personal, setPersonal] = React.useState<ITrabajador[]>([]);
   const idSelect = React.useRef<ICuadrilla>();
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const { register, handleSubmit,reset, formState: { errors } } = useForm<FormData>(); 
-  const {trabajadores,cuadrilla}=useAppSelector((state)=>state.insumos)
+  const {trabajadores,cuadrilla,isActivo}=useAppSelector((state)=>state.insumos)
   const dispatch = useAppDispatch()
+  React.useEffect(() => {
+    if (isActivo) {
+      
+      dispatch(upFTrabajado(persona.id,trabajadores))
+    }
+  }, [trabajadores]);
+  React.useEffect(() => {
+    if (isActivo) {
+      dispatch(upFCuadrilla(persona.id,cuadrilla))
+    }
+  }, [cuadrilla]);
   const addTrab=(data:FormData)=>{
+    dispatch(activarDis())
     const id=new Date().valueOf().toString();
     const salario=parseFloat(data.salario)
     dispatch(addTrabajador({...data,id,salario,salarioSem:salario * parseFloat(data.laborales) }as ITrabajador))
@@ -37,6 +50,7 @@ function PersonalPage() {
     setPersonal([...newList])
   }
   const addCuadri=(data:any)=>{
+    dispatch(activarDis())
     const id=new Date().valueOf().toString();
     dispatch(addCuadrilla({...data,id}as ICuadrilla))
     reset()
@@ -57,8 +71,10 @@ function PersonalPage() {
     setPersonal([...personal,t])
   }
   const upCuadrilla=()=>{
+
     const price =personal.map(item => item.salarioSem).reduce((prev, curr) => prev + curr, 0);
-    dispatch(updateCuadrilla({...idSelect.current,trabajadores:personal,costo:price}as ICuadrilla))
+    const ids=personal.map(e=>e.id)
+    dispatch(updateCuadrilla({...idSelect.current,trabajadores:personal,costo:price,trabajadoresID:ids}as ICuadrilla))
   }
       function closeModal() {
         setIsOpen(false);

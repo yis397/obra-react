@@ -3,8 +3,8 @@ import WorkLayout from '../components/layout/WorkLayout';
 import {CardConcept, CardMaterial, FormsGeneral, ModalI} from '../components/all';
 import { useForm } from 'react-hook-form';
 import { useAppSelector,useAppDispatch } from '../store/hooks';
-import { addConcepto, addMaterial, deletConcepto, deletMaterial, updateConcepto } from '../store/slices';
-import { IMaterial, IMatUso, IConcepto } from '../interfaces/models';
+import { addConcepto, upFMaterial, addMaterial, deletConcepto, deletMaterial, updateConcepto, upFConcepto, activarDis } from '../store/slices';
+import { IMaterial, IMatUso, IConcepto, IAuth } from '../interfaces/models';
 type FormData = {
   nombre    : string;
   marca   : string;
@@ -12,24 +12,37 @@ type FormData = {
   precio: string;
 
 }
-function MaterialPage() {
+function MaterialPage({persona}:{persona:IAuth}) {
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [matUso, setMatUso] = React.useState<IMatUso[]>([]);
     const refConcept=React.useRef<IConcepto>()
     const { register, handleSubmit,reset, formState: { errors } } = useForm<FormData>();
     const dispatch = useAppDispatch() 
-    const {materiales,conceptos}=useAppSelector(state=>state.insumos)
+    const {materiales,conceptos,isActivo}=useAppSelector(state=>state.insumos)
+    React.useEffect(() => {
+      if (isActivo) {
+        dispatch(upFMaterial(persona.id,materiales))
+        
+      }
+    }, [materiales]);
+    React.useEffect(() => {
+      if (isActivo) {
+
+        dispatch(upFConcepto(persona.id,conceptos))
+      }
+    }, [conceptos]);
+    
     const addMat=(data:FormData)=>{
+      dispatch(activarDis())
       const id=new Date().valueOf().toString();
-       dispatch(addMaterial({...data,id,precio:Number.parseFloat(data.precio)} as IMaterial))
+      dispatch(addMaterial({...data,id,precio:Number.parseFloat(data.precio)} as IMaterial))
     }
     const addMatUso=(material:IMaterial)=>{
       if(!refConcept.current?.id)return
       const exist=matUso.find(e=>e.id===material.id)
       if(exist)return
-      const id=new Date().valueOf().toString();
-      const uso:IMatUso={id,material,materialid:material.id}
-      setMatUso([...matUso,uso])
+      const uso:IMatUso={nombre:material.nombre,id:material.id,precio:material.precio}
+      setMatUso([...matUso,uso,])
     }
     const deletMatUso=(id:string)=>{
       const newList=matUso.filter(e=>e.id!==id)
@@ -48,6 +61,7 @@ function MaterialPage() {
      setMatUso([...newList])
     }
     const addConcept=(data:any)=>{
+      dispatch(activarDis())
       const id=new Date().valueOf().toString();
       dispatch(addConcepto({id,...data}as IConcepto))
       closeModal()
@@ -65,14 +79,12 @@ function MaterialPage() {
     const cambiosConcept=()=>{
       let precio:number=0;
       for (let i = 0; i < matUso.length; i++) {
-        precio=+matUso[i].cantidad!*matUso[i].material.precio 
+        precio=+matUso[i].cantidad!*matUso[i].precio 
       }
-      const idsMat=matUso.map(e=>{
-        return e.id
-      })
 
-      dispatch(updateConcepto({...refConcept.current,materiales:matUso,precio,materialesID:idsMat}as IConcepto))
+      dispatch(updateConcepto({...refConcept.current,materiales:matUso,precio}as IConcepto))
     }
+    
 
       function closeModal() {
         setIsOpen(false);
@@ -147,9 +159,9 @@ function MaterialPage() {
 
                    <div className='lista overflow-auto p-2'>
                    {
-                    materiales.map(e=>(
-                      <div className='m-2'>
-                        <CardMaterial key={e.id} save={true} delet={()=>dispatch(deletMaterial(e.id))}
+                    materiales.map((e,i)=>(
+                      <div className='m-2' key={i}>
+                        <CardMaterial  save={true} delet={()=>dispatch(deletMaterial(e.id))}
                         add={()=>addMatUso(e)} material={e}/>
                       </div>
                     ))

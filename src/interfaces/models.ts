@@ -11,7 +11,6 @@ export interface IActividad{
 export interface IEtapa{
     id:string
     nombre:string 
-    actividadesID?: string[]
     actividades?: IActividad[]
 }
 export interface ITrabajador{
@@ -28,13 +27,12 @@ export interface IConcepto{
     nombre:string
     descripcion:string
     materiales?:IMatUso[]
-    materialesID?:string[]
     precio?:number
 }
 export interface IMatUso{
   id:string
-  material:IMaterial
-  materialid?:string
+  nombre:string
+  precio:number
   cantidad?:number
 }
 export interface IMaterial{
@@ -56,5 +54,4 @@ export interface IAuth{
     nombre:string
     email:string
     msg:string
-    isUser:boolean
 }

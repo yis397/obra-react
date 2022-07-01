@@ -3,12 +3,14 @@ import { IAuth, IEtapa } from '../../interfaces/models';
 interface IAutt{
 
     persona:IAuth
+    islogin:boolean
 };
-const INICIAL:IAuth={isUser:false,nombre:"",msg:"",id:"",email:""}
+const INICIAL:IAuth={nombre:"",msg:"",id:"",email:""}
 export const authSlice= createSlice({
     name:'auth',
     initialState:{
-        persona:INICIAL
+        persona:INICIAL,
+        islogin:false
         
     }as IAutt,
     reducers:{
@@ -16,9 +18,12 @@ export const authSlice= createSlice({
           state.persona.msg=action.payload
         },
         setUser:(state,action)=>{
-            state.persona={...action.payload,isUser:true,msg:"Registrado"}as IAuth
+            state.islogin=true
+            state.persona={...action.payload,msg:"Registrado"}as IAuth
+            console.log(state.islogin);
         },
         logout:(state,action)=>{
+            state.islogin=false
             state.persona=INICIAL
         }
     }
