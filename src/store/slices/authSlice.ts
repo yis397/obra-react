@@ -22,7 +22,7 @@ export const authSlice= createSlice({
             state.persona={...action.payload,msg:"Registrado"}as IAuth
             console.log(state.islogin);
         },
-        logout:(state,action)=>{
+        logout:(state)=>{
             state.islogin=false
             state.persona=INICIAL
         }

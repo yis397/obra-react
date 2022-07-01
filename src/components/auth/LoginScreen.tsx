@@ -30,16 +30,16 @@ function LoginScreen() {
   }
     return (
         <AuthLayout>
-            <div className="container" style={{width:'100%',height:'100%',padding:0}}>
+            <div className="container h-100 w-100" >
                 
              <div className='row'>
-             <div className="col-4 ">
+             <div className="col-md-4 col-sm-12 ">
              <Link to={'/auth/register'} className='btn text-info position-absolute'>
                 no tienes cuenta?
                </Link>
              </div>
 
-              <div className="col-8 p-4 " style={{background:"#097caf",height:'100%',display:'flex',justifyContent:'center',flexDirection:'column'}}>
+              <div className="col-md-8 col-sm-12 p-4  rounded-5" style={{background:"#097caf",height:'100vh'}}>
                {
                 persona.msg==='Correcto'?<p className='text-bg-success'>{persona.msg}</p>:<p className='text-bg-danger'>{persona.msg}</p>
                }

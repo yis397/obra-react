@@ -61,8 +61,16 @@ function PersonalPage({persona}:{persona:IAuth}) {
     idSelect.current=cuadrilla;
 
     if(cuadrilla.trabajadores){
+
        setPersonal([...cuadrilla.trabajadores])
+       
        return
+    }
+    if(cuadrilla.trabajadoresID){
+      const newList=cuadrilla.trabajadoresID.map(e=>{
+        return trabajadores.find(t=>t.id===e)
+      })
+      setPersonal(newList as [])
     }
   }
   const addpersonal=(t:ITrabajador)=>{

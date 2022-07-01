@@ -75,7 +75,7 @@ export const cerrarSecion=()=>{
     
     signOut(auth).then(() => {
       localStorage.clear()
-      dispatch(logout)
+      dispatch(logout())
     }).catch((error) => {
       dispatch(setMensaje('error en signOut'))
       // An error happened.
